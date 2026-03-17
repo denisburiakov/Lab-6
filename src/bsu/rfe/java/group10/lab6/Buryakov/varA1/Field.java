@@ -54,6 +54,21 @@ public class Field extends JPanel {
 // Включить режим паузы
         paused = true;
     }
+
+    private boolean smallPaused;
+
+    // Метод включения паузы для маленьких шаров
+    public synchronized void pauseSmall() {
+        smallPaused = true;
+    }
+
+    // Метод снятия паузы (общий resume тоже подойдет, если там есть notifyAll)
+    public synchronized void resumeSmall() {
+        smallPaused = false;
+        notifyAll(); // Пробуждаем потоки
+    }
+
+
     // Метод синхронизированный, т.е. только один поток может
 // одновременно быть внутри
     public synchronized void resume() {
@@ -69,6 +84,10 @@ public class Field extends JPanel {
         if (paused) {
 // Если режим паузы включен, то поток, зашедший
 // внутрь данного метода, засыпает
+            wait();
+        }
+
+        if(smallPaused && ball.getRadius() < 10){
             wait();
         }
     }

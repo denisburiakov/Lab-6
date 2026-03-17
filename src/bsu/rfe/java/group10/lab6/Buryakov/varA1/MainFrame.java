@@ -16,6 +16,8 @@ public class MainFrame extends JFrame {
     private static final int HEIGHT = 500;
     private JMenuItem pauseMenuItem;
     private JMenuItem resumeMenuItem;
+    private JMenuItem pauseSmallMenuItem;
+    private JMenuItem resumeSmallMenuItem;
     // Поле, по которому прыгают мячи
     private Field field = new Field();
     // Конструктор главного окна приложения
@@ -56,6 +58,7 @@ public class MainFrame extends JFrame {
         };
         pauseMenuItem = controlMenu.add(pauseAction);
         pauseMenuItem.setEnabled(false);
+
         Action resumeAction = new AbstractAction("Возобновить движение") {
             public void actionPerformed(ActionEvent event) {
                 field.resume();
@@ -65,6 +68,29 @@ public class MainFrame extends JFrame {
         };
         resumeMenuItem = controlMenu.add(resumeAction);
         resumeMenuItem.setEnabled(false);
+
+        Action pausesmallAction = new AbstractAction("Приостановить движение(до 10)"){
+            public void actionPerformed(ActionEvent event) {
+                field.pauseSmall();
+                pauseSmallMenuItem.setEnabled(false);
+                resumeSmallMenuItem.setEnabled(true);
+            }
+        };
+        pauseSmallMenuItem = controlMenu.add(pausesmallAction);
+        pauseSmallMenuItem.setEnabled(true);
+
+        Action resumesmallAction = new AbstractAction("Возобновить движение(до 10)") {
+            public void actionPerformed(ActionEvent event) {
+                field.resumeSmall();
+                pauseSmallMenuItem.setEnabled(true);
+                resumeSmallMenuItem.setEnabled(false);
+            }
+        };
+        resumeSmallMenuItem = controlMenu.add(resumesmallAction);
+        resumeSmallMenuItem.setEnabled(false);
+
+
+
 // Добавить в центр граничной компоновки поле Field
         getContentPane().add(field, BorderLayout.CENTER);
     }
